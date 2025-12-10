@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio - Vitória Nogueira</title>
+
+<style>
+   /* ==================== RESET & GERAL ==================== */
+
+/* :root -> aqui definimos variáveis que usamos em todo o CSS */
+:root{
+    --bg-dark: #050507;                 /* cor de fundo principal (preto bem escuro) */
+    --card-dark: rgba(255,255,255,0.03);/* cor leve para "cards" (transparente) */
+    --muted: #bdbdbd;                   /* cor neutra para textos secundários */
+    --accent: #b19cff;                  /* cor de destaque (lilás) */
+    --glass: rgba(255,255,255,0.04);    /* overlay translúcido estilo "vidro" */
+}
+
+/* * { box-sizing: border-box } -> facilita cálculos de largura/altura */
+*{box-sizing: border-box;}
+
+/* body -> configura o visual base da página */
+body{
+    margin:0;                           /* remove margem padrão do navegador */
+    font-family: Inter, system-ui, Arial, sans-serif; /* fontes preferenciais */
+    background:var(--bg-dark);          /* aplica a cor de fundo definida em --bg-dark */
+    color:#fff;                         /* texto branco por padrão */
+    line-height:1.4;                    /* espaço entre linhas para melhor leitura */
+}
+
+/* links (a) herdam a cor do texto em vez de usar azul padrão */
+a{color:inherit}
+
+
+/* ==================== GALÁXIA - FUNDO COM PARTÍCULAS ==================== */
+
+/* .space -> camada que segura todo o fundo espacial */
+.space {
+    position:fixed;       /* fixa essa camada na tela (sempre visível) */
+    inset:0;              /* atalho para top:0; right:0; bottom:0; left:0; */
+    z-index:-3;           /* coloca atrás do conteúdo principal */
+    overflow:hidden;      /* esconde partes que ultrapassam a área */
+    background: radial-gradient(ellipse at bottom, #0b0b0d 0%, #040405 60%); /* base escura tipo espaço */
+}
+
+/* três camadas de estrelas sobrepostas para profundidade */
+.stars, .stars2, .stars3{
+    position:absolute;    /* posicionamento absoluto dentro de .space */
+    inset:0;              /* ocupam toda a área de .space */
+    background-repeat:repeat; /* o padrão se repete para preencher a tela */
+    opacity:0.55;         /* transparência inicial (ajustada individualmente depois) */
+}
+
+/* .stars -> camada principal de estrelas (maiores) */
+.stars{
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff 100%, rgba(255,255,255,0) 0),
+        radial-gradient(1px 1px at 60% 60%, #fff 100%, rgba(255,255,255,0) 0);
+    /* cria pontos brancos (estrelas) com gradientes radiais */
+    background-size: 300px 300px; /* distância entre padrões (espaçamento das "estrelas") */
+    animation: moveStars 60s linear infinite; /* animação contínua (movimento) */
+}
+
+/* .stars2 -> camada secundária, mais suave e com velocidade diferente */
+.stars2{
+    background-image:
+        radial-gradient(1.2px 1.2px at 40% 20%, #fff 100%, rgba(255,255,255,0) 0);
+    background-size: 200px 200px;
+    opacity:0.35;  /* menos visível para dar profundidade */
+    animation: moveStars 90s linear infinite reverse; /* movimenta mais devagar e no sentido inverso */
+}
+
+/* .stars3 -> camada de estrelas bem pequenas e sutis */
+.stars3{
+    background-image:
+        radial-gradient(1px 1px at 10% 80%, #fff 100%, rgba(255,255,255,0) 0);
+    background-size: 120px 120px;
+    opacity:0.2;   /* quase imperceptível, para profundidade */
+    animation: moveStars 120s linear infinite; /* movimento muito lento */
+}
+
+/* @keyframes moveStars -> move as camadas de estrelas no eixo Y */
+@keyframes moveStars{
+    from{transform:translateY(0)}  /* posição inicial */
+    to{transform:translateY(-800px)} /* move para cima (aparência de fluxo) */
+}
+
+/* .nebula -> camadas translúcidas de cor que simula nebulosa */
+.nebula{
+    position:absolute;    /* posiciona sobre as estrelas */
+    inset:0;              /* ocupa toda a área */
+    background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(177,156,255,0.08), transparent 10%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,150,200,0.03), transparent 15%);
+    pointer-events:none;  /* não atrapalha cliques (passa o clique para baixo) */
+}
+
+
+/* ==================== LAYOUT PRINCIPAL ==================== */
+
+/* .container -> centraliza e limita a largura do conteúdo */
+.container{
+    max-width:1100px;     /* largura máxima do conteúdo */
+    margin:0 auto;        /* centraliza horizontalmente */
+    padding:40px 20px 120px; /* topo, laterais e espaço inferior (para não cortar) */
+    position:relative;    /* contexto para posicionamento interno */
+}
+
+/* header -> organiza logo e nav na mesma linha */
+header{
+    display:flex;         /* usa flexbox para alinhar itens em linha */
+    justify-content:space-between; /* separa logo e nav */
+    align-items:center;   /* alinha verticalmente no centro */
+    gap:20px;             /* espaço entre itens */
+}
+
+/* .logo -> estilo simples do texto de logo */
+.logo{
+    font-weight:700;      /* negrito */
+    letter-spacing:1px;   /* espaçamento entre letras */
+}
+
+/* nav -> menu com itens em linha */
+nav{display:flex;gap:12px}
+
+/* estilo dos links do menu */
+nav a{
+    padding:8px 12px;     /* espaço interno do link */
+    border-radius:8px;    /* cantos arredondados */
+    transition:all .25s;  /* transição suave em hover */
+    opacity:0.9;          /* leve transparência */
+}
+
+/* hover dos links -> fundo tipo vidro + cor de destaque */
+nav a:hover{background:var(--glass);color:var(--accent)}
+
+
+/* ==================== HERO (FOTO + NOME + CTA) ==================== */
+
+/* .hero -> área principal (foto + nome + botões) centralizada */
+.hero{
+    display:flex;
+    flex-direction:column; /* empilha verticalmente */
+    align-items:center;     /* centraliza horizontalmente */
+    margin-top:20px;
+}
+
+/* .profile-container -> envolve foto e brilho (posicionamento relativo) */
+.profile-container{
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* .glow-circle -> círculo brilhante atrás da foto */
+.glow-circle{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%); /* centraliza o círculo na foto */
+    width:260px; height:260px;
+    border-radius:50%; /* forma circular */
+    background:
+        radial-gradient(circle at 30% 30%, rgba(177,156,255,0.18), transparent 30%),
+        radial-gradient(circle at 70% 70%, rgba(255,255,255,0.06), transparent 60%);
+    filter:blur(22px);  /* deixa o brilho difuso */
+    z-index:0;          /* fica atrás da foto */
+    pointer-events:none;/* não bloqueia cliques */
+    animation:pulsar 3s ease-in-out infinite; /* efeito de pulsar */
+}
+
+/* animação pulsar -> faz o glow crescer e diminuir */
+@keyframes pulsar{
+    0%{transform:translate(-50%,-50%) scale(0.95);opacity:0.6}
+    50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}
+    100%{transform:translate(-50%,-50%) scale(0.95);opacity:0.6}
+}
+
+/* .foto -> estilo da imagem do perfil (círculo, sombra e animação de entrada) */
+.foto{
+    width:180px;height:180px;       /* tamanho da foto */
+    border-radius:50%;              /* deixa circular */
+    object-fit:cover;               /* cobre o espaço sem deformar */
+    box-shadow:0 10px 40px rgba(0,0,0,0.6); /* sombra embaixo */
+    position:relative;
+    z-index:2;                      /* fica acima do glow */
+    opacity:0;                      /* começa invisível */
+    transform:translateY(-200px);   /* começa deslocada para cima */
+    animation:cair 1.4s ease forwards; /* anima a entrada (cair) */
+}
+
+/* keyframes cair -> foto sobe de -200px para 0 e fica visível */
+@keyframes cair{
+    0%{opacity:0;transform:translateY(-200px)}
+    100%{opacity:1;transform:translateY(0)}
+}
+
+/* .digitando -> efeito máquina de escrever para o nome/título */
+.digitando{
+    color:#fff;
+    font-size:28px;
+    font-family:monospace;      /* fonte monoespaçada para efeito "digitando" */
+    overflow:hidden;            /* esconde o texto que ainda não apareceu */
+    border-right:3px solid #fff;/* cursor vertical */
+    white-space:nowrap;         /* não quebra linha */
+    width:0;                    /* começará com largura 0 para animação */
+    margin-top:18px;
+    animation:typing 3s steps(26) forwards, blink .6s infinite; /* typing + blink */
+}
+
+/* typing aumenta a largura (revela o texto em passos) */
+@keyframes typing{from{width:0}to{width:380px}}
+
+/* blink faz o cursor piscar (torna transparente às vezes) */
+@keyframes blink{50%{border-color:transparent}}
+
+/* .subtitulo -> texto menor que aparece após o typing */
+.subtitulo{
+    opacity:0;                  /* começa invisível */
+    color:var(--muted);         /* cor neutra */
+    margin-top:10px;
+    animation:fadeIn 2s 3s forwards; /* aparece depois de 3s, dura 2s */
+}
+
+/* fadeIn -> animação simples que vai de transparente para opaco */
+@keyframes fadeIn{to{opacity:1}}
+
+/* .cta -> botões de ação (ex: contratar, ver projetos) */
+.cta{
+    display:flex;
+    gap:12px;
+    margin-top:18px;
+    opacity:0;                  /* inicia invisível */
+    animation:fadeIn 1s 4s forwards; /* aparece depois do subtítulo */
+}
+
+/* estilo dos links dentro de .cta (parecem botões) */
+.cta a{
+    padding:10px 16px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.08);
+    text-decoration:none;
+    transition:all .25s;
+}
+
+/* hover dos botões -> leve elevação e brilho */
+.cta a:hover{
+    transform:translateY(-4px);
+    box-shadow:0 8px 24px rgba(177,156,255,0.12);
+    background:linear-gradient(90deg, rgba(177,156,255,0.06), rgba(255,255,255,0.03));
+    color:var(--accent);
+}
+
+
+/* ==================== SOBRE & CARDS ==================== */
+
+/* espaço entre seções */
+section{margin-top:48px}
+
+/* .card -> bloco com estilo "glass" para conteúdos */
+.card{
+    background:var(--card-dark); /* cor translúcida definida em :root */
+    padding:18px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.04);
+    backdrop-filter:blur(6px); /* efeito de desfoque no fundo do card (vidro) */
+}
+
+/* .sobre -> bloco principal "Sobre mim" com animação de entrada */
+.sobre{
+    max-width:900px;
+    margin:30px auto 0; /* centraliza e posiciona */
+    opacity:0;          /* começa invisível */
+    animation:fadeIn 1s 5s forwards; /* aparece com delay */
+}
+
+/* remove margem superior do h2 dentro de .sobre */
+.sobre h2{margin-top:0}
+
+
+/* ==================== SKILLS (BARRAS ANIMADAS) ==================== */
+
+/* .skills -> área das habilidades */
+.skills{
+    max-width:800px;
+    margin:28px auto 0;
+    text-align:left;
+    opacity:0;
+    animation:fadeIn 1s 6s forwards; /* aparece com delay maior */
+}
+
+/* cada linha de skill possui nome e barra */
+.skill-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:12px 0;
+}
+
+/* nome da skill com largura fixa para alinhar as barras */
+.skill-name{width:120px;color:var(--muted)}
+
+/* trilho (fundo) da barra de skill */
+.skill-track{
+    flex:1;
+    background:#151516;
+    border-radius:999px; /* deixa a barra totalmente arredondada */
+    height:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.03);
+}
+
+/* preenchimento da barra (starta com width:0 e pode ser aumentado via JS ou classe) */
+.skill-fill{
+    height:100%;
+    width:0; /* será aumentado para mostrar porcentagem */
+    background:linear-gradient(90deg,var(--accent),#fff); /* gradiente lilás -> branco */
+    border-radius:999px;
+    transition:width 1.8s ease; /* anima o preenchimento */
+}
+
+
+/* ==================== PROJECT CARDS (3D hover) ==================== */
+
+/* grid responsivo de projetos */
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); /* adapta colunas automaticamente */
+    gap:18px;
+    margin-top:28px;
+    opacity:0;
+    animation:fadeIn 1s 6.5s forwards;
+}
+
+/* estilo do cartão de projeto */
+.project{
+    padding:18px;
+    border-radius:12px;
+    transform-style:preserve-3d; /* permite efeitos 3D no hover */
+    transition:transform .4s, box-shadow .4s;
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    border:1px solid rgba(255,255,255,0.03);
+}
+
+/* efeito quando o mouse passa por cima do projeto */
+.project:hover{
+    transform:translateY(-10px) rotateX(3deg); /* levanta e gira levemente */
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);    /* sombra maior */
+}
+
+
+/* ==================== CONTACT & FOOTER ==================== */
+
+/* seção de contato com o mesmo estilo de card */
+.contact{
+    max-width:700px;
+    margin:36px auto;
+    padding:18px;
+    border-radius:12px;
+    background:var(--card-dark);
+    opacity:0;
+    animation:fadeIn 1s 7s forwards;
+}
+
+/* links dentro do contato (ícones/redes) */
+.contact .links{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+/* botão social estilizado */
+.btn-social{
+    padding:10px 14px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.06);
+    text-decoration:none;
+    transition:all .2s;
+}
+
+/* hover do botão social */
+.btn-social:hover{
+    transform:translateY(-4px);
+    background:rgba(177,156,255,0.06);
+    color:var(--accent);
+}
+
+/* rodapé simples centralizado */
+footer{
+    text-align:center;
+    padding:26px 0 60px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+
+/* ==================== RESPONSIVE ==================== */
+
+/* Regras que valem somente em telas menores (<=720px) */
+@media(max-width:720px){
+    .digitando{
+        font-size:22px;                     /* reduz o tamanho do texto digitando */
+        animation:typing 2.2s steps(18) forwards; /* reduz duração e passos */
+        width:260px;                         /* largura menor para caber na tela */
+    }
+    .glow-circle{width:200px;height:200px}      /* reduz o glow atrás da foto */
+    .container{padding:28px 18px}              /* menos padding para telas pequenas */
+}
+
+</style>
+</head>
+<body>
+
+    <!-- GALAXY LAYERS -->
+    <div class="space">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+        <div class="nebula"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Vitória Nogueira</div>
+            <nav>
+                <a href="#sobre">Sobre</a>
+                <a href="#projetos">Projetos</a>
+                <a href="#habilidades">Habilidades</a>
+                <a href="#contato">Contato</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="profile-container">
+                    <div class="glow-circle" aria-hidden></div>
+                    <img src="remover o fundo da i.png" alt="Vitória" class="foto">
+                </div>
+
+                <h1 class="digitando">Vitória Nogueira</h1>
+                <p class="subtitulo">Desenvolvedora Front-End Iniciante</p>
+
+                <div class="cta">
+                    <a class="btn" href="#contato">Contrate-me</a>
+                    <a class="btn" href="#projetos">Meus projetos</a>
+                </div>
+            </section>
+
+            <section id="sobre" class="sobre card">
+                <h2>Sobre mim</h2>
+                <p>Tenho 19 anos, e estou iniciando minha jornada como desenvolvedora. Já estudei HTML, CSS, JavaScript, Python e SQL. Gosto de projetos, criar layouts limpos, interativos e com personalidade.</p>
+            </section>
+
+            <section id="projetos" class="projects">
+                <div class="project card">
+                    <h3>Projeto 1</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+                <div class="project card">
+                    <h3>Projeto 2</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+                <div class="project card">
+                    <h3>Projeto 3</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+            </section>
+
+            <section id="habilidades" class="skills">
+                <h2>Habilidades</h2>
+                <div class="skill-row"><div class="skill-name">HTML</div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">CSS</div><div class="skill-track"><div class="skill-fill" style="width:70%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">JavaScript</div><div class="skill-track"><div class="skill-fill" style="width:45%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">Python</div><div class="skill-track"><div class="skill-fill" style="width:50%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">SQL</div><div class="skill-track"><div class="skill-fill" style="width:40%"></div></div></div>
+            </section>
+
+            <section id="contato" class="contact card">
+                <h2>Contato</h2>
+                <p>Quer falar comigo? Me chama no LinkedIn, GitHub ou por e-mail.</p>
+                <div class="links">
+                    <a class="btn-social" href="#">LinkedIn</a>
+                    <a class="btn-social" href="#">GitHub</a>
+                    <a class="btn-social" href="#">E-mail</a>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <footer>
+        © <span id="ano"></span> Vitória Nogueira — Feito com ❤️
+    </footer>
+
+<script>
+    // atualiza ano
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // animação de preenchimento das barras — delay para parecer sequencial
+    window.addEventListener('load', function(){
+        const fills = document.querySelectorAll('.skill-fill');
+        fills.forEach((f,i)=>{ setTimeout(()=>{ f.style.width = f.style.width; }, 600 + i*250); });
+    });
+
+    // smooth scroll para links do nav
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', function(e){
+            const href = this.getAttribute('href');
+            if(href.length>1){
+                e.preventDefault();
+                document.querySelector(href).scrollIntoView({behavior:'smooth', block:'start'});
+            }
+        });
+    });
+</script>
+</body>
+</html>

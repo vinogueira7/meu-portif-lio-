@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfólio - Vitória Nogueira</title>
+
+<style>
+    /* ==================== RESET & GERAL tudo o que o usuario ve ==================== */
+    :root{
+        --bg-dark: #050507; /* cor de fundo principal */
+        --card-dark: rgba(255, 255, 255, 0); /* fundo dos cards */
+        --muted: #bdbdbdef; /* cor de texto secundário (desenvolvedora e habilidades*/
+        --accent: #b19cff36; /* lilás galaxy */
+        --glass: rgba(255, 255, 255, 0); /* fundo dos cards */
+    }
+    *{box-sizing: border-box;} /* Faz todas as caixinhas do site ficarem do mesmo tamanho, mesmo com borda e almofada (padding) */
+
+body{
+    margin:0; /* remove margem padrão */
+    font-family: Inter, system-ui, Arial, sans-serif; /* fontes padrão no site inteiro*/
+    background:var(--bg-dark); /* aplica cor de fundo */
+    color:#fff; /* texto branco por padrão */
+    line-height:1.4; /* coloca espaço entre as linhas pra não ficar tudo grudado */
+}
+
+a{
+    color:inherit} /* faz o link ficar da mesma cor do texto perto dele */
+
+
+    /* ==================== GALÁXIA - FUNDO COM PARTÍCULAS ==================== */
+
+    .space { /* essa é a parte do fundo do espaço */
+    position:fixed; /* fica grudado na tela mesmo quando rola a página */
+    inset:0; /* ocupa a tela inteira (top, right, bottom, left = 0) */
+    z-index:-3; /* fica lááá atrás de tudo */
+    overflow:hidden; /* esconde qualquer coisa que sair das bordas */
+    background: radial-gradient(ellipse at bottom, #0b0b0d 0%, #040405 60%); /* faz um degradê escuro igual céu */
+}
+
+/* estrelas pequenas */
+.stars, .stars2, .stars3{ 
+    position:absolute; /* ficam presas na posição dentro do fundo */
+    inset:0; /* ocupam a tela inteira */
+    background-repeat:repeat; /* repete o desenho das estrelinhas muitas vezes */
+    opacity:0.55 /* deixam as estrelas meio transparentes */
+}
+
+.stars{ 
+    background-image: radial-gradient(2px 2px at 20% 30%, #fff 100%, rgba(255,255,255,0) 0), radial-gradient(1px 1px at 60% 60%, #fff 100%, rgba(255,255,255,0) 0); /* cria pontos brancos que viram estrelas */
+    background-size: 300px 300px; /* define o tamanho do bloquinho de estrelas */
+    animation: moveStars 60s linear infinite; /* faz as estrelas se moverem pra cima devagar */
+}
+
+.stars2{
+    background-image: radial-gradient(1.2px 1.2px at 40% 20%, #fff 100%, rgba(255,255,255,0) 0); /* mais estrelas, um pouquinho menores */
+    background-size: 200px 200px; /* bloquinho menor = mais estrelas aparecendo */
+    opacity:0.35; /* bem transparente, parece estrela distante */
+    animation: moveStars 90s linear infinite reverse; /* se mexe mais devagar e ao contrário */
+}
+
+.stars3{
+    background-image: radial-gradient(1px 1px at 10% 80%, #fff 100%, rgba(255,255,255,0) 0); /* mais uma camada de estrelas */
+    background-size: 120px 120px; /* bloquinho ainda menor = muitas estrelas */
+    opacity:0.2; /* quase transparente, bem longe */
+    animation: moveStars 120s linear infinite; /* movimento super lento */
+}
+
+@keyframes moveStars{ /* animação das estrelas subindo */
+    from{transform:translateY(0)} /* começa sem mover */
+    to{transform:translateY(-800px)} /* sobe 800px criando efeito de céu se movendo */
+}
+
+/* suave overlay de nebulosa */
+.nebula{
+    position:absolute; /* fica por cima do espaço */
+    inset:0; /* ocupa a tela toda */
+    background-image: radial-gradient(ellipse at 20% 10%, rgba(177,156,255,0.08), transparent 10%), radial-gradient(ellipse at 80% 80%, rgba(255,150,200,0.03), transparent 15%); /* manchas coloridas que parecem nebulosa */
+    pointer-events:none /* não atrapalha clique em nada do site */
+}
+
+    /* ==================== LAYOUT PRINCIPAL ==================== */
+    .container{max-width:1100px;margin:0 auto;padding:40px 20px 120px;position:relative;}
+    header{display:flex;justify-content:space-between;align-items:center;gap:20px}
+    .logo{font-weight:700;letter-spacing:1px}
+    nav{display:flex;gap:12px}
+    nav a{padding:8px 12px;border-radius:8px;transition:all .25s;opacity:0.9}
+    nav a:hover{background:var(--glass);color:var(--accent)}
+
+    /* ==================== HERO (FOTO + NOME + CTA) ==================== */
+    .hero{display:flex;flex-direction:column;align-items:center;margin-top:20px}
+
+    .profile-container{position:relative;display:flex;justify-content:center;align-items:center}
+    .glow-circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:260px;height:260px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(177,156,255,0.18), transparent 30%), radial-gradient(circle at 70% 70%, rgba(255,255,255,0.06), transparent 60%);filter:blur(22px);z-index:0;pointer-events:none;animation:pulsar 3s ease-in-out infinite}
+    @keyframes pulsar{0%{transform:translate(-50%,-50%) scale(0.95);opacity:0.6}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}100%{transform:translate(-50%,-50%) scale(0.95);opacity:0.6}}
+
+    .foto{width:180px;height:180px;border-radius:50%;object-fit:cover;box-shadow:0 10px 40px rgba(0,0,0,0.6);position:relative;z-index:2;opacity:0;transform:translateY(-200px);animation:cair 1.4s ease forwards}
+    @keyframes cair{0%{opacity:0;transform:translateY(-200px)}100%{opacity:1;transform:translateY(0)}}
+
+    /* ====== AQUI A PARTE QUE MUDEI (SEM ANIMAÇÃO DE DIGITAR) ====== */
+    .digitando{
+        color:#fff;
+        font-size:28px;
+        font-family:monospace;
+        margin-top:18px;
+        overflow:unset;
+        border-right:none;
+        white-space:normal;
+        width:auto;
+    }
+    /* (keyframes removidos) */
+
+    .subtitulo{opacity:0;color:var(--muted);margin-top:10px;animation:fadeIn 2s 3s forwards}
+    @keyframes fadeIn{to{opacity:1}}
+
+    .cta{display:flex;gap:12px;margin-top:18px;opacity:0;animation:fadeIn 1s 4s forwards}
+    .cta a{padding:10px 16px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);text-decoration:none;transition:all .25s}
+    .cta a:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(177,156,255,0.12);background:linear-gradient(90deg, rgba(177,156,255,0.06), rgba(255,255,255,0.03));color:var(--accent)}
+
+    /* ==================== SOBRE & CARDS ==================== */
+    section{margin-top:48px}
+    .card{background:var(--card-dark);padding:18px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);backdrop-filter:blur(6px)}
+
+    .sobre{max-width:900px;margin:30px auto 0;opacity:0;animation:fadeIn 1s 5s forwards}
+    .sobre h2{margin-top:0}
+
+    /* ==================== SKILLS (BARRAS ANIMADAS) ==================== */
+    .skills{max-width:800px;margin:28px auto 0;text-align:left;opacity:0;animation:fadeIn 1s 6s forwards}
+    .skill-row{display:flex;align-items:center;gap:12px;margin:12px 0}
+    .skill-name{width:120px;color:var(--muted)}
+    .skill-track{flex:1;background:#151516;border-radius:999px;height:14px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .skill-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#fff);border-radius:999px;transition:width 1.8s ease}
+
+    /* ==================== PROJECT CARDS (3D hover) ==================== */
+    .projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:28px;opacity:0;animation:fadeIn 1s 6.5s forwards}
+    .project{padding:18px;border-radius:12px;transform-style:preserve-3d;transition:transform .4s, box-shadow .4s;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
+    .project:hover{transform:translateY(-10px) rotateX(3deg);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+
+    /* ==================== CONTACT & FOOTER ==================== */
+    .contact{max-width:700px;margin:36px auto;padding:18px;border-radius:12px;background:var(--card-dark);opacity:0;animation:fadeIn 1s 7s forwards}
+    .contact .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+    .btn-social{padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);text-decoration:none;transition:all .2s}
+    .btn-social:hover{transform:translateY(-4px);background:rgba(177,156,255,0.06);color:var(--accent)}
+
+    footer{text-align:center;padding:26px 0 60px;color:var(--muted);font-size:14px}
+
+    /* ==================== RESPONSIVE ==================== */
+    @media(max-width:720px){
+        .digitando{font-size:22px;width:auto}
+        .glow-circle{width:200px;height:200px}
+        .container{padding:28px 18px}
+    }
+</style>
+</head>
+<body>
+
+    <!-- GALAXY LAYERS -->
+    <div class="space">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+        <div class="nebula"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo">Vitória Nogueira</div>
+            <nav>
+                <a href="#sobre">Sobre</a>
+                <a href="#projetos">Projetos</a>
+                <a href="#habilidades">Habilidades</a>
+                <a href="#contato">Contato</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="profile-container">
+                    <div class="glow-circle" aria-hidden></div>
+                    <img src="remover o fundo da i.png" alt="Vitória" class="foto">
+                </div>
+
+                <h1 class="digitando">Vitória Nogueira</h1>
+                <p class="subtitulo">Desenvolvedora Front-End Iniciante</p>
+
+                <div class="cta">
+                    <a class="btn" href="#contato">Contrate-me</a>
+                    <a class="btn" href="#projetos">Meus projetos</a>
+                </div>
+            </section>
+
+            <section id="sobre" class="sobre card">
+                <h2>Sobre mim</h2>
+                <p>Tenho 19 anos, e estou iniciando minha jornada como desenvolvedora. Já estudei HTML, CSS, JavaScript, Python e SQL. Gosto de projetos, criar layouts limpos, interativos e com personalidade.</p>
+            </section>
+
+            <section id="projetos" class="projects">
+                <div class="project card">
+                    <h3>Projeto 1</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+                <div class="project card">
+                    <h3>Projeto 2</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+                <div class="project card">
+                    <h3>Projeto 3</h3>
+                    <p>Descrição curta do projeto — pode colocar link e imagem aqui.</p>
+                </div>
+            </section>
+
+            <section id="habilidades" class="skills">
+                <h2>Habilidades</h2>
+                <div class="skill-row"><div class="skill-name">HTML</div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">CSS</div><div class="skill-track"><div class="skill-fill" style="width:70%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">JavaScript</div><div class="skill-track"><div class="skill-fill" style="width:45%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">Python</div><div class="skill-track"><div class="skill-fill" style="width:50%"></div></div></div>
+                <div class="skill-row"><div class="skill-name">SQL</div><div class="skill-track"><div class="skill-fill" style="width:40%"></div></div></div>
+            </section>
+
+            <section id="contato" class="contact card">
+                <h2>Contato</h2>
+                <p>Quer falar comigo? Me chama no LinkedIn, GitHub ou por e-mail.</p>
+                <div class="links">
+                    <a class="btn-social" href="#">LinkedIn</a>
+                    <a class="btn-social" href="#">GitHub</a>
+                    <a class="btn-social" href="#">E-mail</a>
+                </div>
+            </section>
+        </main>
+
+    </div>
+
+    <footer>
+        © <span id="ano"></span> Vitória Nogueira — Feito com ❤️
+    </footer>
+
+<script>
+    // atualiza ano
+    document.getElementById('ano').textContent = new Date().getFullYear();
+
+    // animação de preenchimento das barras — delay para parecer sequencial
+    window.addEventListener('load', function(){
+        const fills = document.querySelectorAll('.skill-fill');
+        fills.forEach((f,i)=>{ setTimeout(()=>{ f.style.width = f.style.width; }, 600 + i*250); });
+    });
+
+    // smooth scroll para links do nav
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', function(e){
+            const href = this.getAttribute('href');
+            if(href.length>1){
+                e.preventDefault();
+                document.querySelector(href).scrollIntoView({behavior:'smooth', block:'start'});
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
