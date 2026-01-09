@@ -136,6 +136,27 @@ a{
     .project{padding:18px;border-radius:12px;transform-style:preserve-3d;transition:transform .4s, box-shadow .4s;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03)}
     .project:hover{transform:translateY(-10px) rotateX(3deg);box-shadow:0 20px 60px rgba(0,0,0,0.6)}
 
+    /* thumbnail do dashboard */
+.project-img{
+    width: 100%;
+    max-height: 280px;     /* deixa a imagem pequena */
+    object-fit: cover;   /* corta sem distorcer */
+    border-radius: 10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.dashboard-thumb{
+    display: block !important;
+    width: 100% !important;
+    height: 90px !important;
+    object-fit: cover !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+
     /* ==================== CONTACT & FOOTER ==================== */
     .contact{max-width:700px;margin:36px auto;padding:18px;border-radius:12px;background:var(--card-dark);opacity:0;animation:fadeIn 1s 7s forwards}
     .contact .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
@@ -198,8 +219,10 @@ a{
                 <div class="project card">
                     <h3>Dashboard de Absenteísmo</h3>
   <p>Análise de saúde ocupacional, áreas, turnos e impacto no negócio usando Power BI.</p>
-  <img src="absenteismo.png" class="project-img">
-  <a href="absenteismo.png" target="_blank">Ver dashboard</a>
+ <img src="absenteismo.png" class="project-img dashboard-thumb">
+<a href="absenteismo.png" target="_blank">Ver dashboard</a>
+
+
 </div>
                 <div class="project card">
                     <h3>Projeto 2</h3>
@@ -260,5 +283,6 @@ a{
 </script>
 </body>
 </html>
+
 
 
